@@ -1,14 +1,18 @@
-// src/components/dashboard/DashboardHome.tsx
-
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Book, Star, List } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { db } from '@/firebase';
-import { collection, query, where, getDocs, orderBy, onSnapshot } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy,
+  onSnapshot,
+} from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 import { NotificationAlert } from '@/components/NotificationAlert';
-import MyServices from './MyServices';
 
 const DashboardHome = () => {
   const { user } = useAuth();
@@ -19,48 +23,65 @@ const DashboardHome = () => {
   const [notifications, setNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-useEffect(() => {
-  if (!user) return;
+  useEffect(() => {
+    if (!user) return;
 
-  const servicesRef = collection(db, "services");
-  const servicesQuery = query(servicesRef, where("providerId", "==", user.id));
-  const notificationsRef = collection(db, "notifications");
-  const notifQuery = query(
-    notificationsRef,
-    where("providerId", "==", user.id),
-    orderBy("timestamp", "desc")
-  );
+    const servicesRef = collection(db, 'services');
+    const servicesQuery = query(servicesRef, where('providerId', '==', user.id));
+    const notificationsRef = collection(db, 'notifications');
+    const notifQuery = query(
+      notificationsRef,
+      where('providerId', '==', user.id),
+      orderBy('timestamp', 'desc')
+    );
 
-  const fetchServices = async () => {
-    try {
-      const servicesSnapshot = await getDocs(servicesQuery);
-      const services = servicesSnapshot.docs.map(doc => doc.data());
-      const totalServices = services.length;
-      let totalRating = 0;
-      services.forEach(service => {
-        totalRating += service.rating || 0;
-      });
-      const averageRating = totalServices > 0 ? (totalRating / totalServices) : 0;
+    const fetchStats = async () => {
+      try {
+        const servicesSnapshot = await getDocs(servicesQuery);
+        const services = servicesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const totalServices = services.length;
 
-      setStats({
-        totalServices,
-        averageRating: parseFloat(averageRating.toFixed(1)),
-      });
-    } catch (error) {
-      console.error("Error fetching services:", error);
-    }
-  };
+        let totalRating = 0;
+        let totalRatingsCount = 0;
 
-  fetchServices();
+        for (const service of services) {
+          const ratingsQuery = query(
+            collection(db, 'ratings'),
+            where('serviceId', '==', service.id)
+          );
+          const ratingSnapshot = await getDocs(ratingsQuery);
+          const ratings = ratingSnapshot.docs.map(doc => doc.data());
 
-  const unsubscribe = onSnapshot(notifQuery, (notifSnapshot) => {
-    const notifData = notifSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setNotifications(notifData);
-    setIsLoading(false);
-  });
+          const sum = ratings.reduce((acc, r) => acc + (r.rating || 0), 0);
+          totalRating += sum;
+          totalRatingsCount += ratings.length;
+        }
 
-  return () => unsubscribe();
-}, [user]);
+        const averageRating =
+          totalRatingsCount > 0 ? totalRating / totalRatingsCount : 0;
+
+        setStats({
+          totalServices,
+          averageRating: parseFloat(averageRating.toFixed(1)),
+        });
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      }
+    };
+
+    fetchStats();
+
+    const unsubscribe = onSnapshot(notifQuery, notifSnapshot => {
+      const notifData = notifSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setNotifications(notifData);
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [user]);
 
   if (isLoading) {
     return (
@@ -99,7 +120,9 @@ useEffect(() => {
       </div>
 
       <Card>
-        <CardHeader><CardTitle>Recent Activity</CardTitle></CardHeader>
+        <CardHeader>
+          <CardTitle>Recent Activity</CardTitle>
+        </CardHeader>
         <CardContent>
           {notifications.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
@@ -107,7 +130,7 @@ useEffect(() => {
               <p>Recent activity and notifications will appear here.</p>
             </div>
           ) : (
-            notifications.map((notif) => (
+            notifications.map(notif => (
               <NotificationAlert
                 key={notif.id}
                 message={notif.message}
