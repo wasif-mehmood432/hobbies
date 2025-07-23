@@ -100,7 +100,7 @@ const Services = () => {
     <div className="min-h-screen bg-gradient-to-b from-red-50 to-white">
       <div className="bg-gradient-to-r from-fuchsia-600 to-fuchsia-300 text-white sm:py-24">
         <div className="max-w-7xl mx-auto p-20 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6">Find Local Services</h1>
+          <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6">finde lokale tjenester</h1>
           <div className="mt-8">
             <SearchBar onSearch={handleSearch} />
           </div>

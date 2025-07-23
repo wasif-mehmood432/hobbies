@@ -1,3 +1,4 @@
+import { Facebook, Instagram } from 'lucide-react';
 import React from 'react';
 
 const Footer = () => {
@@ -8,12 +9,8 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-gray-900 mb-4">Links</h4>
             <ul className="space-y-2 text-gray-600">
-              <li><a href="#" className="hover:text-gray-900 transition-colors">Resurser</a></li>
-              <li><a href="#" className="hover:text-gray-900 transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-gray-900 transition-colors">Priser</a></li>
-              <li><a href="#" className="hover:text-gray-900 transition-colors">Cases</a></li>
-              <li><a href="#" className="hover:text-gray-900 transition-colors">Om os</a></li>
-              <li><a href="/faq" className="hover:text-gray-900 transition-colors">FAQ</a></li>
+              <li><a href="https://www.instagram.com/hobbiies.dk/?igsh=YzFycWd1bTE4aWlu#" className="hover:text-gray-900 transition-colors"><Instagram/></a></li>
+              <li><a href="https://www.facebook.com/people/Hobbiies/61576046263485/#" className="hover:text-gray-900 transition-colors"><Facebook/></a></li>
             </ul>
           </div>
           

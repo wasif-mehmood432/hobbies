@@ -8,10 +8,10 @@ const Hero = () => {
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-8">
             Få overblik over{' '}
-            <span className="text-[#ff00c8]">creators</span>{' '}
+            <span className="text-[#ff00c8]">lokale services</span>{' '}
             og{' '}
-            <span className="text-[#ff00c8]">betal</span>{' '}
-            kun for visninger
+            <span className="text-[#ff00c8]">betal </span>{' '}
+           kun for faktiske visninger
           </h1>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">

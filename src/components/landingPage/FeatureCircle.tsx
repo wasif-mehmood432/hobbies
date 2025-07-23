@@ -39,9 +39,7 @@ const FeatureCircle = () => {
                 <h4 className="font-semibold text-gray-900">Kontakt</h4>
                 
                 <div className="border-t pt-4">
-                  <p className="text-gray-600">business@burstcreators.dk</p>
-                  <p className="text-gray-600">Tlf: +45 31 17 13 01</p>
-                  <p className="text-gray-600">Fredriksberg</p>
+                  <p className="text-gray-600">info@hobbiies.dk</p>
                 </div>
               </div>
             </div>
