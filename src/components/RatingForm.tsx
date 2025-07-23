@@ -1,77 +1,95 @@
-// src/components/RatingForm.tsx
 import { useState } from "react";
-import { Star } from "lucide-react";
-import { addDoc, collection, query, where, getDocs, Timestamp } from "firebase/firestore";
+import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/firebase";
-import { getUserIP } from "../lib/utils";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
-export const RatingForm = ({ serviceId, providerId }: { serviceId: string; providerId: string }) => {
+interface RatingFormProps {
+  serviceId: string;
+  providerId: string;
+}
+
+export const RatingForm = ({ serviceId, providerId }: RatingFormProps) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
 
   const handleSubmit = async () => {
-    const ip = await getUserIP();
-    if (!ip) return alert("IP could not be detected.");
-
     const contacted = JSON.parse(localStorage.getItem("contactedServices") || "{}");
-    if (!contacted[serviceId]) return alert("You must click Contact before rating.");
+    const ipInfo = contacted[serviceId];
 
-    const q = query(
-      collection(db, "ratings"),
-      where("ip", "==", ip),
-      where("providerId", "==", providerId)
-    );
-    const snap = await getDocs(q);
-
-    const hasRatedRecently = snap.docs.some(doc => {
-      const data = doc.data();
-      const lastTime = data.createdAt?.toDate()?.getTime() || 0;
-      return Date.now() - lastTime < 24 * 60 * 60 * 1000;
-    });
-
-    if (hasRatedRecently) {
-      return alert("You've already rated this provider in the last 24 hours.");
+    // Validate contact first
+    if (!ipInfo || !ipInfo.ip) {
+      setDialogMessage("You must contact the provider before rating.");
+      setShowDialog(true);
+      return;
     }
 
-    await addDoc(collection(db, "ratings"), {
-      providerId,
-      serviceId,
-      rating,
-      comment,
-      ip,
-      createdAt: Timestamp.now(),
-    });
+    // Restrict multiple ratings from same IP within 24 hours
+    const lastRatedTime = localStorage.getItem(`rated_${serviceId}_${ipInfo.ip}`);
+    if (lastRatedTime && Date.now() - parseInt(lastRatedTime) < 24 * 60 * 60 * 1000) {
+      setDialogMessage("You already rated this provider in the last 24 hours.");
+      setShowDialog(true);
+      return;
+    }
 
-    setSubmitted(true);
+    try {
+      await addDoc(collection(db, "ratings"), {
+        serviceId,
+        providerId,
+        rating,
+        comment,
+        timestamp: serverTimestamp(),
+        ip: ipInfo.ip,
+      });
+
+      localStorage.setItem(`rated_${serviceId}_${ipInfo.ip}`, Date.now().toString());
+      setDialogMessage("Thank you! Your rating has been submitted.");
+      setShowDialog(true);
+      setRating(0);
+      setComment("");
+    } catch (err) {
+      setDialogMessage("Something went wrong. Please try again.");
+      setShowDialog(true);
+    }
   };
 
-  if (submitted) return <div className="text-green-600 font-medium">Thanks for your rating!</div>;
-
   return (
-    <div className="space-y-3">
-      <div className="flex items-center space-x-1">
-        {[1, 2, 3, 4, 5].map(star => (
-          <Star
-            key={star}
-            className={`h-5 w-5 cursor-pointer ${star <= rating ? "fill-yellow-400 text-yellow-400" : "text-gray-400"}`}
-            onClick={() => setRating(star)}
-          />
+    <div className="space-y-4">
+      <div className="flex items-center gap-1">
+        {[...Array(5)].map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setRating(i + 1)}
+            className={`text-xl ${i < rating ? "text-yellow-500" : "text-gray-300"}`}
+          >
+            ★
+          </button>
         ))}
       </div>
-      <textarea
-        className="w-full p-2 border rounded"
-        placeholder="Leave a comment (optional)"
+      <Textarea
+        placeholder="Leave a comment..."
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       />
-      <button
-        className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded"
-        onClick={handleSubmit}
-        disabled={!rating}
-      >
+      <Button onClick={handleSubmit} className="w-full">
         Submit Rating
-      </button>
+      </Button>
+
+      {/* Dialog for alerts */}
+      <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Notice</AlertDialogTitle>
+            <AlertDialogDescription >{dialogMessage}</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <Button onClick={() => setShowDialog(false)}>OK</Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
