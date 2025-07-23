@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-100 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-3 gap-8">
           <div>
             <h4 className="font-semibold text-gray-900 mb-4">Links</h4>
             <ul className="space-y-2 text-gray-600">
@@ -34,18 +34,11 @@ const Footer = () => {
             </ul>
           </div>
           
-          <div>
-            <div className="bg-black text-white p-4 rounded-lg">
-              <div className="text-center">
-                <div className="w-8 h-8 bg-white rounded mx-auto mb-2"></div>
-                <div className="text-sm">📱</div>
-              </div>
-            </div>
-          </div>
+
         </div>
         
         <div className="border-t border-gray-200 mt-8 pt-8 text-center text-gray-600">
-          <p>© 2024 Burst Creators - Bygger verden af creators</p>
+          <p>© 2024 Hobbiies  - Bygger verden af locals</p>
           <div className="flex justify-center space-x-4 mt-4">
               <a href="/resources/images/PrivacyPolicyEN.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors">Privacy Policy(EN)</a>
               <a href="/resources/images/T&CHobbiiesEN.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-gray-900 transition-colors">Terms of use(EN)</a>
