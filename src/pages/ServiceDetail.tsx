@@ -60,16 +60,14 @@ const ServiceDetail = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Card className="mb-8 overflow-hidden">
-            <Skeleton className="h-64 sm:h-80 w-full" />
-            <CardContent className="p-6">
-              <Skeleton className="h-8 w-3/4 mb-4" />
-              <Skeleton className="h-6 w-1/2" />
-            </CardContent>
-          </Card>
-        </div>
+      <div className="min-h-screen bg-gray-50 py-8 flex justify-center">
+        <Card className="w-full max-w-2xl overflow-hidden">
+          <Skeleton className="h-64 sm:h-80 w-full" />
+          <CardContent className="p-6">
+            <Skeleton className="h-8 w-3/4 mb-4" />
+            <Skeleton className="h-6 w-1/2" />
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -86,115 +84,113 @@ const ServiceDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Card className="mb-8 overflow-hidden">
-          <div className="relative h-64 sm:h-80">
-            <img src={service.image} alt={service.serviceName} className="w-full h-full object-cover" />
-            <div className="absolute top-4 right-4">
-              <Badge className="bg-pink-500 text-white px-3 py-1">{service.serviceName}</Badge>
-            </div>
-            <div className="absolute -bottom-10 left-6">
-              <Avatar className="h-24 w-24 border-4 border-white shadow-md">
-                <AvatarImage src={service.providerImageUrl} alt={service.name} />
-                <AvatarFallback className="text-2xl">{service.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-            </div>
-          </div>
-          <CardContent className="p-6 pt-16">
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{service.name}</h1>
-                <div className="flex items-center space-x-4 text-gray-600 mb-4">
-                  <div className="flex items-center space-x-1">
-                    <MapPin className="h-4 w-4 text-pink-500" />
-                    <span>{service.location} ({service.postalCode})</span>
-                  </div>
-                 {service.rating > 0 ? (
+    <div className="min-h-screen bg-gray-50 py-8 flex flex-col items-center space-y-6 px-4">
+      {/* Header Card */}
+     <Card className="w-full max-w-2xl overflow-hidden">
+  <div className="relative h-64 sm:h-80">
+    <img src={service.image} alt={service.serviceName} className="w-full h-full object-cover" />
+    <div className="absolute top-4 right-4">
+      <Badge className="bg-pink-500 text-white px-3 py-1">{service.serviceName}</Badge>
+    </div>
+    <div className="absolute -bottom-10 left-1/2 transform -translate-x-1/2">
+      <Avatar className="h-24 w-24 border-4 border-white shadow-md">
+        <AvatarImage src={service.providerImageUrl} alt={service.name} />
+        <AvatarFallback className="text-2xl">{service.name.charAt(0)}</AvatarFallback>
+      </Avatar>
+    </div>
+  </div>
+
+        <CardContent className="p-6 pt-16">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{service.name}</h1>
+              <div className="flex items-center space-x-4 text-gray-600 mb-4">
                 <div className="flex items-center space-x-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-4 w-4 ${
-                        i < Math.round(service.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
-                      }`}
-                    />
-                  ))}
-                  <span className="ml-1">({service.rating.toFixed(1)})</span>
+                  <MapPin className="h-4 w-4 text-pink-500" />
+                  <span>{service.location} ({service.postalCode})</span>
                 </div>
-              ) : (
-                <span className="text-gray-500 italic">No ratings yet</span>
-              )}
-                </div>
-              </div>
-              <div className="text-right mt-4 sm:mt-0">
-                <div className="text-2xl font-bold text-gray-900 mb-1">{service.price}</div>
-                <div className="text-sm text-gray-600">{service.priceDetails}</div>
+                {service.rating > 0 ? (
+                  <div className="flex items-center space-x-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`h-4 w-4 ${
+                          i < Math.round(service.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+                        }`}
+                      />
+                    ))}
+                    <span className="ml-1">({service.rating.toFixed(1)})</span>
+                  </div>
+                ) : (
+                  <span className="text-gray-500 italic">No ratings yet</span>
+                )}
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
-            <Card>
-              <CardContent className="p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">About Me</h2>
-                <p className="text-gray-600 whitespace-pre-wrap break-words">{service.longDescription}</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">Service Details</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Experience</h3>
-                    <p className="text-gray-600">{service.experience}</p>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Availability</h3>
-                    <p className="text-gray-600">{service.availability}</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <div className="text-right mt-4 sm:mt-0">
+              <div className="text-2xl font-bold text-gray-900 mb-1">{service.price}</div>
+              <div className="text-sm text-gray-600">{service.priceDetails}</div>
+            </div>
           </div>
+        </CardContent>
+      </Card>
 
-          <div className="space-y-6">
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="font-semibold text-gray-900 mb-4">Contact Provider</h3>
-                <div className="space-y-3">
-                  {service.contactPhone && (
-                    <Button onClick={() => handleContactClick(service.id)} variant="outline" className="w-full justify-start" asChild>
-                      <a href={`tel:${service.contactPhone}`}>
-                        <Phone className="h-4 w-4 mr-2" />
-                        Call Now
-                      </a>
-                    </Button>
-                  )}
-                  <Button onClick={() => handleContactClick(service.id)} variant="outline" className="w-full justify-start" asChild>
-                    <a href={`mailto:${service.contactEmail}`}>
-                      <Mail className="h-4 w-4 mr-2" />
-                      Send Email
-                    </a>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+      {/* About Me */}
+      <Card className="w-full max-w-2xl">
+        <CardContent className="p-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">About Me</h2>
+          <p className="text-gray-600 whitespace-pre-wrap break-words">{service.longDescription}</p>
+        </CardContent>
+      </Card>
 
-            {/* ✅ Fixed Rating Card */}
-            <Card>
-              <CardHeader>
-                <h3 className="text-lg font-semibold">Rate this Provider</h3>
-              </CardHeader>
-              <CardContent>
-                <RatingForm serviceId={service.id} providerId={service.providerId} />
-              </CardContent>
-            </Card>
+      {/* Service Details */}
+      <Card className="w-full max-w-2xl">
+        <CardContent className="p-6">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Service Details</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-1">Experience</h3>
+              <p className="text-gray-600">{service.experience}</p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900 mb-1">Availability</h3>
+              <p className="text-gray-600">{service.availability}</p>
+            </div>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
+
+      {/* Contact Provider */}
+      <Card className="w-full max-w-2xl">
+        <CardContent className="p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">Contact Provider</h3>
+          <div className="space-y-3">
+            {service.contactPhone && (
+              <Button onClick={() => handleContactClick(service.id)} variant="outline" className="w-full justify-start" asChild>
+                <a href={`tel:${service.contactPhone}`}>
+                  <Phone className="h-4 w-4 mr-2" />
+                  Call Now
+                </a>
+              </Button>
+            )}
+            <Button onClick={() => handleContactClick(service.id)} variant="outline" className="w-full justify-start" asChild>
+              <a href={`mailto:${service.contactEmail}`}>
+                <Mail className="h-4 w-4 mr-2" />
+                Send Email
+              </a>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Rating */}
+      <Card className="w-full max-w-2xl">
+        <CardHeader>
+          <h3 className="text-lg font-semibold">Rate this Provider</h3>
+        </CardHeader>
+        <CardContent>
+          <RatingForm serviceId={service.id} providerId={service.providerId} />
+        </CardContent>
+      </Card>
     </div>
   );
 };

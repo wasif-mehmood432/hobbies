@@ -1,8 +1,15 @@
-// src/firebase.ts
+// firebase.ts
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  OAuthProvider,
+  type Auth,
+} from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
+// ✅ Firebase config
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
@@ -12,9 +19,14 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID,
 };
 
-// Initialize Firebase
+// ✅ Initialize Firebase App
 const app = initializeApp(firebaseConfig);
+export const auth: Auth = getAuth(app);
 
-// Export the services you'll need
-export const auth = getAuth(app);
+// ✅ Firestore
 export const db = getFirestore(app);
+
+// ✅ Auth Providers
+export const googleProvider = new GoogleAuthProvider();
+export const facebookProvider = new FacebookAuthProvider();
+export const appleProvider = new OAuthProvider("apple.com");
