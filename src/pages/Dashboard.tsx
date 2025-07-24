@@ -85,7 +85,7 @@ const Dashboard = () => {
 
  const menuItems = [
     { id: 'home', label: 'Dashboard', icon: Home },
-    { id: 'add-service', label: 'Add Service', icon: Plus },
+    { id: 'add-service', label: 'tilføje service', icon: Plus },
     { id: 'MyServices', label: 'My Services', icon: BarChart3 },
     { id: 'pricing', label: 'Pricing', icon: CreditCard },
     { id: 'settings', label: 'Settings', icon: Settings },

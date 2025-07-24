@@ -74,7 +74,7 @@ const MyServices = () => {
       await deleteDoc(doc(db, 'services', deleteTarget.id));
       setServices((prev) => prev.filter((s) => s.id !== deleteTarget.id));
       await addDoc(collection(db, 'notifications'), {
-          message: `You deleted a service ${deleteTarget.name}.`,
+          message: `Du har slettet en tjeneste ${deleteTarget.name}.`,
           providerId: user.id,
           timestamp: serverTimestamp(),
         });

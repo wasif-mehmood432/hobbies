@@ -34,8 +34,8 @@ const Header = () => {
           {!isMobile ? (
             <nav className="flex items-center space-x-8">
               {/* desktop links */}
-              <Link to="/" className="text-gray-700 hover:text-[#ff00c8]">Home</Link>
-              <Link to="/services" className="text-gray-700 hover:text-[#ff00c8]">Services</Link>
+              <Link to="/" className="text-gray-700 hover:text-[#ff00c8]">hjem</Link>
+              <Link to="/services" className="text-gray-700 hover:text-[#ff00c8]">tjenester</Link>
               <Link to="/faq" className="text-gray-700 hover:text-[#ff00c8]">FAQ</Link>
               {user && (
                 <Link to="/dashboard" className="text-gray-700 hover:text-[#ff00c8] flex items-center">

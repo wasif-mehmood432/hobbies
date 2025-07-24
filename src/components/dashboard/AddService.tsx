@@ -130,7 +130,7 @@ const ServiceForm = () => {
       };
       await addDoc(collection(db, "services"), newService);
       await addDoc(collection(db, 'notifications'), {
-        message: `You created a service  ${serviceName}.`,
+        message: `du har oprettet en tjeneste  ${serviceName}.`,
         providerId: user.id,
         timestamp: serverTimestamp(),
       });
@@ -151,17 +151,17 @@ const ServiceForm = () => {
   return (
     <div className="max-w-2xl mx-auto">
       <Card>
-        <CardHeader><CardTitle>Describe Your Service</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Beskriv din service</CardTitle></CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="serviceName">Service Name</Label>
+              <Label htmlFor="serviceName">tjenestenavn</Label>
               <Input id="serviceName" placeholder="e.g., Professional Dog Walking" value={serviceName} onChange={(e) => setServiceName(e.target.value)} required />
             </div>
 
             {/* Category Dropdown */}
             <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
+              <Label htmlFor="category">Kategori</Label>
               <Select value={category} onValueChange={setCategory}>
                 <SelectTrigger id="category">
                   <SelectValue placeholder="Select a category" />
@@ -176,57 +176,57 @@ const ServiceForm = () => {
 
             {/* Service Image Upload */}
             <div className="space-y-2">
-              <Label htmlFor="serviceImage">Service Image</Label>
+              <Label htmlFor="serviceImage">Service billede</Label>
               <Input id="serviceImage" type="file" accept="image/*" onChange={(e) => e.target.files && setImageFile(e.target.files[0])} className="file:text-pink-600" required />
               {imageFile && <p className="text-sm text-gray-500 mt-1">Selected: {imageFile.name}</p>}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="price">Starting Price (in DKK)</Label>
+                <Label htmlFor="price">Startpris (in DKK)</Label>
                 <Input id="price" type="number" placeholder="e.g., 40" value={price} onChange={(e) => setPrice(e.target.value)} required />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="priceDetails">Price Details</Label>
+                <Label htmlFor="priceDetails">Prisoplysningerv</Label>
                 <Input id="priceDetails" placeholder="e.g., 40 kr for group, 60 kr for solo" value={priceDetails} onChange={(e) => setPriceDetails(e.target.value)} required />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="description">Short Description (for Service Card)</Label>
+              <Label htmlFor="description">Kort beskrivelse (for servicekort)</Label>
               <Textarea id="description" placeholder="A brief, one-sentence summary of your service." value={description} onChange={(e) => setDescription(e.target.value)} required rows={2} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="longDescription">Full "About Me" Description</Label>
+              <Label htmlFor="longDescription">Fuld beskrivelse af "Om mig"</Label>
               <Textarea id="longDescription" placeholder="Tell customers about yourself, your experience, and what makes your service special." value={longDescription} onChange={(e) => setLongDescription(e.target.value)} required rows={5} />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="postalCode">Postal Code</Label>
+                <Label htmlFor="postalCode">Postnummer</Label>
                 <Input id="postalCode" placeholder="e.g., 4690" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} required />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="location">Location / City</Label>
+                <Label htmlFor="location">Beliggenhed / by</Label>
                 <Input id="location" placeholder="e.g., Dalby" value={location} onChange={(e) => setLocation(e.target.value)} required />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="experience">Experience</Label>
+                <Label htmlFor="experience">Erfaring</Label>
                 <Input id="experience" placeholder="e.g., 2+ years" value={experience} onChange={(e) => setExperience(e.target.value)} required />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="availability">Availability</Label>
+                <Label htmlFor="availability">Tilgængelighed</Label>
                 <Input id="availability" placeholder="e.g., Monday - Sunday, 7 AM - 7 PM" value={availability} onChange={(e) => setAvailability(e.target.value)} required />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="contactEmail">Public Contact Email</Label>
+                <Label htmlFor="contactEmail">Offentlig kontakt e-mail</Label>
                 <Input id="contactEmail" type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} required />
               </div>
             </div>
             <Button type="submit" className="w-full bg-red-600 hover:bg-red-700" disabled={isLoading || isUploading}>
-              {isLoading || isUploading ? 'Saving Service...' : 'Add Service'}
+              {isLoading || isUploading ? 'Saving Service...' : 'tilføje service'}
             </Button>
           </form>
         </CardContent>
@@ -244,7 +244,7 @@ const AddService = ({ navigateToTab }: AddServiceProps) => {
         <CardHeader><CardTitle>Phone Number Required</CardTitle></CardHeader>
         <CardContent>
           <p className="mb-4 text-muted-foreground">
-            Please add a phone number to your profile before you can list a new service.
+          Tilføj venligst et telefonnummer til din profil, før du kan angive en ny tjeneste.
           </p>
           <Button onClick={() => navigateToTab('settings')}>Go to Settings</Button>
         </CardContent>

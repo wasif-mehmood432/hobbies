@@ -93,10 +93,10 @@ const DashboardSettings = () => {
       }
 
       // Save all data, including the new or existing image URL, to Firestore
-      await updateUserProfile({ name, phone, description, imageUrl });
-      toast({ title: "Success!", description: "Your profile has been updated." });
+      await updateUserProfile({ name, phone, description, imageUrl }); 
+      toast({ title: "Success!", description: "din profil er blevet oprettet" });
       await addDoc(collection(db, 'notifications'), {
-        message: `Your profile has been updated`,
+        message: `din profil er blevet oprettet`,
         providerId: user.id,
         timestamp: serverTimestamp(),
       });
@@ -113,7 +113,7 @@ const DashboardSettings = () => {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <Card>
-        <CardHeader><CardTitle>Profile Settings</CardTitle></CardHeader>
+        <CardHeader><CardTitle>Profilindstillinger</CardTitle></CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex items-center space-x-6">

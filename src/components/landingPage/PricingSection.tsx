@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check } from 'lucide-react';
+import { redirect } from 'react-router-dom';
 
 const PricingSection = () => {
   const essentialFeatures = [
@@ -40,7 +41,7 @@ const PricingSection = () => {
             <div className="mb-6">
               <h3 className="text-2xl font-bold mb-2">🔥 præmie</h3>
               <div className="text-4xl font-bold mb-4">199 dk. <span className="text-xl">md</span></div>
-              <button className="w-full bg-black text-white py-3 rounded-full font-semibold hover:bg-gray-800 transition-colors">
+              <button  className="w-full bg-black text-white py-3 rounded-full font-semibold hover:bg-gray-800 transition-colors">
                Buy Now
               </button>
             </div>

@@ -110,12 +110,21 @@ const ServiceDetail = () => {
                     <MapPin className="h-4 w-4 text-pink-500" />
                     <span>{service.location} ({service.postalCode})</span>
                   </div>
-                  <div className="flex items-center space-x-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className={`h-4 w-4 ${i < service.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
-                    ))}
-                    <span className="ml-1">({service.rating}.0)</span>
-                  </div>
+                 {service.rating > 0 ? (
+                <div className="flex items-center space-x-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`h-4 w-4 ${
+                        i < Math.round(service.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+                      }`}
+                    />
+                  ))}
+                  <span className="ml-1">({service.rating.toFixed(1)})</span>
+                </div>
+              ) : (
+                <span className="text-gray-500 italic">No ratings yet</span>
+              )}
                 </div>
               </div>
               <div className="text-right mt-4 sm:mt-0">

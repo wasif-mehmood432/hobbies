@@ -1,3 +1,4 @@
+import Landing from '@/components/landingPage/carousel'
 import FeatureCircle from '@/components/landingPage/FeatureCircle'
 import Footer from '@/components/landingPage/Footer'
 import Hero from '@/components/landingPage/Hero'
@@ -14,6 +15,7 @@ return (
     <div className="min-h-screen">
         <Hero />
         <StatsSection />
+        <Landing />
         <ProcessSection />
         <FeatureCircle />
         <PricingSection />
