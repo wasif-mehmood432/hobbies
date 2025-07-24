@@ -95,8 +95,8 @@ const Signup = () => {
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Join ServiceConnect</h1>
-          <p className="text-gray-600">Create your account to get started</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">deltage i hobbyer</h1>
+          <p className="text-gray-600">Opret din konto for at komme i gang</p>
         </div>
 
         <Card className="shadow-xl border-0">
