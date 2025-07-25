@@ -1,11 +1,10 @@
-/// <reference types="vite/client" />
-import { RecaptchaVerifier } from "firebase/auth";
+// vite.config.ts or vite.config.js
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react-swc'
 
-declare global {
-  interface Window {
-    recaptchaVerifier: RecaptchaVerifier;
+export default defineConfig({
+  plugins: [react()],
+  optimizeDeps: {
+    include: ['framer-motion']
   }
-}
-optimizeDeps: {
-  include: ["framer-motion"]
-}
+})
