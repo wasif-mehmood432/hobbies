@@ -6,3 +6,6 @@ declare global {
     recaptchaVerifier: RecaptchaVerifier;
   }
 }
+optimizeDeps: {
+  include: ["framer-motion"]
+}
