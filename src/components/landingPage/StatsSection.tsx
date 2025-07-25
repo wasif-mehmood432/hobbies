@@ -24,7 +24,7 @@ const StatsSection = () => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
-    const speed = 0.5; // Adjust this for smoother or faster scrolling
+    const speed = 0.5;
 
     const scroll = () => {
       if (!scrollContainer || isHovered) return;
@@ -48,8 +48,8 @@ const StatsSection = () => {
   }, [isHovered]);
 
   return (
-    <section className="bg-white text-black py-16 p-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <section className="bg-white text-black py-16 w-full">
+      <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-3xl lg:text-5xl font-bold mb-4">
           Over 30 Kategorier
         </h2>
@@ -57,15 +57,15 @@ const StatsSection = () => {
         <div className="mt-10">
           <h4 className="text-2xl font-bold text-pink-600 mb-4">Alle Kategorier</h4>
 
-          {/* Smooth Auto-Scrolling Carousel */}
+          {/* Auto-scrolling horizontal category list */}
           <div
             ref={scrollRef}
-            className="flex overflow-x-auto gap-4 px-2 py-4 scrollbar-hide transition-all duration-300"
+            className="flex overflow-x-auto gap-4 px-2 py-4 scrollbar-hide transition-all duration-300 w-full"
             style={{
               scrollBehavior: 'smooth',
               WebkitOverflowScrolling: 'touch',
               scrollbarWidth: 'none',
-              msOverflowStyle: 'none'
+              msOverflowStyle: 'none',
             }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}

@@ -4,16 +4,19 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '../contexts/AuthContext';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { LogOut, User, LayoutDashboard, Menu, X } from 'lucide-react';
 
 const Header = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate('/');
+    setMobileMenuOpen(false);
   };
 
   return (
@@ -22,8 +25,8 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center">
-              <img src="/logo.svg" alt="ServiceConnect Logo" className="h-full object-contain" />
+            <div className="w-10 h-10 flex items-center justify-center">
+              <img src="/logo.svg" alt="ServiceConnect Logo" className="h-full w-auto" />
             </div>
           </Link>
 
@@ -44,60 +47,72 @@ const Header = () => {
           <div className="hidden md:flex items-center space-x-4">
             {user ? (
               <>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 text-sm text-gray-700">
                   <User className="h-5 w-5 text-gray-600" />
                   <span className="font-medium">{user.name}</span>
                 </div>
-                <Button variant="ghost" size="sm" onClick={handleLogout} className="flex items-center space-x-1">
+                <Button variant="ghost" size="sm" onClick={handleLogout}>
                   <LogOut className="h-4 w-4" />
-                  <span>Logout</span>
+                  <span className="ml-1 hidden sm:inline">Logout</span>
                 </Button>
               </>
             ) : (
               <>
-                <Link to="/login"><Button variant="ghost">Login</Button></Link>
-                <Link to="/signup"><Button className="bg-[#ff00c8] text-white">Sign Up</Button></Link>
+                <Link to="/login"><Button variant="ghost" size="sm">Login</Button></Link>
+                <Link to="/signup"><Button className="bg-[#ff00c8] text-white" size="sm">Sign Up</Button></Link>
               </>
             )}
           </div>
 
-          {/* Mobile Toggle */}
+          {/* Mobile Menu Toggle */}
           <div className="md:hidden">
-            <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(prev => !prev)}>
+            <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Nav Menu */}
+      {/* Mobile Nav Panel */}
       {mobileMenuOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-2 bg-white border-t">
-          <Link to="/" onClick={() => setMobileMenuOpen(false)} className="block text-gray-700">Hjem</Link>
-          <Link to="/services" onClick={() => setMobileMenuOpen(false)} className="block text-gray-700">Tjenester</Link>
-          <Link to="/faq" onClick={() => setMobileMenuOpen(false)} className="block text-gray-700">FAQ</Link>
-          {user && (
-            <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 flex items-center">
-              <LayoutDashboard className="h-4 w-4 mr-1" />
-              Dashboard
-            </Link>
-          )}
-          <div className="pt-3 flex flex-col space-y-2">
+        <div className="md:hidden bg-white border-t px-4 py-4 space-y-3 shadow-md">
+          <nav className="flex flex-col space-y-2 text-sm">
+            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="text-gray-700">Hjem</Link>
+            <Link to="/services" onClick={() => setMobileMenuOpen(false)} className="text-gray-700">Tjenester</Link>
+            <Link to="/faq" onClick={() => setMobileMenuOpen(false)} className="text-gray-700">FAQ</Link>
+            {user && (
+              <Link to="/dashboard" onClick={() => setMobileMenuOpen(false)} className="text-gray-700 flex items-center">
+                <LayoutDashboard className="h-4 w-4 mr-2" />
+                Dashboard
+              </Link>
+            )}
+          </nav>
+
+          <div className="border-t pt-4 space-y-2">
             {user ? (
               <>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 text-sm text-gray-700">
                   <User className="h-5 w-5 text-gray-600" />
-                  <span className="font-medium">{user.name}</span>
+                  <span>{user.name}</span>
                 </div>
-                <Button variant="ghost" size="sm" onClick={handleLogout} className="flex items-center space-x-1 w-fit">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 w-full justify-start"
+                >
                   <LogOut className="h-4 w-4" />
                   <span>Logout</span>
                 </Button>
               </>
             ) : (
               <>
-                <Link to="/login"><Button variant="ghost" className="w-full">Login</Button></Link>
-                <Link to="/signup"><Button className="bg-[#ff00c8] text-white w-full">Sign Up</Button></Link>
+                <Link to="/login">
+                  <Button variant="ghost" className="w-full text-left">Login</Button>
+                </Link>
+                <Link to="/signup">
+                  <Button className="bg-[#ff00c8] text-white w-full">Sign Up</Button>
+                </Link>
               </>
             )}
           </div>
