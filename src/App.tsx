@@ -15,6 +15,7 @@ import FAQ from "./pages/FAQ";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
 import Index from "./pages/Index";
+import PrivacyPolicy from "./components/Privacy";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +34,9 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/faq" element={<FAQ />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/service/:id" element={<ServiceDetail />} />
+
               <Route 
                 path="/dashboard" 
                 element={
